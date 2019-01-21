@@ -1,2 +1,2 @@
-# kataAccountManagement
-Kata of a simple account management API
+# BankAccountKata
+Kata of a simple bank account management API
