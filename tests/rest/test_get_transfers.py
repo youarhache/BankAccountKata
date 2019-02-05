@@ -68,7 +68,8 @@ def test_get_transfers_with_filters(mock_usecase,client):
     request_to_use = mock.Mock()
     with(mock.patch('bankaccount.usecases.request_objects.TransferHistoRequest')) as mock_request:
         mock_request.from_dict.return_value = request_to_use
-        client.get('/transfers?filter_param1=value1&filter_param2=value2')
+        http_response = client.get('/transfers?filter_param1=value1&filter_param2=value2')
 
     mock_request.from_dict.assert_called_with({'filters':{'param1':'value1', 'param2':'value2'}})
     mock_usecase.execute.asset_called_with(request_to_use)
+    assert http_response.status_code == 200
