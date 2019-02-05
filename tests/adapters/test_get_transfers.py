@@ -1,35 +1,36 @@
 import json
+import uuid
 from unittest import mock
 
 from bankaccount.usecases import response_objects as resp
 from bankaccount.entities.transfer import Transfer
 
 transfer_dict1 = {
-        'trs_id':1,
+        'trs_id':str(uuid.uuid4()),
         'trs_timestamp':"2019-01-22 09:00:00",
-        'trs_from':"1234567890F",
-        'trs_to':"3333333333A",
+        'trs_from':{'code':"1234567890F", 'balance': 1000},
+        'trs_to':{'code':"3333333333A", 'balance': 1000},
         'trs_amount':321.00
     }
 transfer_dict2 = {
-        'trs_id':2,
+        'trs_id':str(uuid.uuid4()),
         'trs_timestamp':"2019-01-22 09:10:20",
-        'trs_from':"4444444444C",
-        'trs_to':"7765432255B",
+        'trs_from':{'code':"4444444444C", 'balance': 2000},
+        'trs_to':{'code':"7765432255B", 'balance': 1000},
         'trs_amount':1234.50
     }
 transfer_dict3 = {
-        'trs_id':3,
+        'trs_id':str(uuid.uuid4()),
         'trs_timestamp':"2019-01-23 15:05:04",
-        'trs_from':"5555555555E",
-        'trs_to':"7765432255B",
+        'trs_from':{'code':"5555555555E", 'balance': 1000},
+        'trs_to':{'code':"7765432255B", 'balance': 1000},
         'trs_amount':400.00
     }
 transfer_dict4 = {
-        'trs_id':4,
+        'trs_id':str(uuid.uuid4()),
         'trs_timestamp':"2019-01-24 14:00:59",
-        'trs_from':"7777777777A",
-        'trs_to':"1111188888B",
+        'trs_from':{'code':"7777777777A", 'balance': 1000},
+        'trs_to':{'code':"1111188888B", 'balance': 1000},
         'trs_amount':492.50
     }
 trs1 = Transfer.from_dict(transfer_dict1)

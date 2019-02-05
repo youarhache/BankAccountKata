@@ -2,5 +2,7 @@ pytest
 tox
 coverage
 pytest-cov
+SQLAlchemy
+sqlalchemy-utils
 Flask
 pytest-flask

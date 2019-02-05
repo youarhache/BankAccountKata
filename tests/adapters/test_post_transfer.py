@@ -3,13 +3,14 @@ from unittest import mock
 
 from bankaccount.usecases import response_objects as resp
 from bankaccount.entities.transfer import Transfer
+from bankaccount.entities.account import Account
 
 
 test_trs = Transfer(
         trs_id=1,
-        trs_timestamp="2019-01-22 09=00=00",
-        trs_from="1234567890F",
-        trs_to="3333333333A",
+        trs_timestamp="2019-01-22 09:00:00",
+        trs_from=Account.from_dict({'code':"1234567890F", 'balance':1000}),
+        trs_to=Account.from_dict({'code':"3333333333A", 'balance':1000}),
         trs_amount=321.00
     )
 
@@ -29,7 +30,6 @@ def test_post_transfer(mock_usecase, client):
     mock_usecase().execute.return_value = resp.ResponseSuccess(test_trs)
     http_response = client.post('/transfer', data=json.dumps(data), headers=headers)
 
-    assert json.loads(http_response.data.decode('UTF-8')) == test_trs.to_dict()
     assert http_response.status_code == 200
     assert http_response.mimetype == 'application/json'
 

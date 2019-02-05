@@ -34,14 +34,19 @@ class AccountOperationRequest(Request):
         #ToDo : add more validation conditions
         if account is None:
             self.add_error('account', 'parameter is required')
+
         elif not isinstance(account, collections.Mapping):
             self.add_error('account', 'parameter not in the correct format')
+
         elif 'code' not in account or 'amount' not in account:
             self.add_error('account', 'account code and amount are required')
+
         elif len(account['code']) == 0:
             self.add_error('account', "account code can't be empty")
+
         elif not isinstance(account['amount'], float) or float(account['amount']) < 0:
             self.add_error('account', "amount must be a positive number")
+            
         else:
             self.account = account
 
@@ -55,14 +60,23 @@ class TransferAmountRequest(Request):
         self.errors = []
         if trs is None:
             self.add_error('transfer', 'parameter is required')
+
         elif not isinstance(trs, collections.Mapping):
             self.add_error('transfer', 'parameter not in the correct format')
-        elif 'from' not in trs or 'to' not in trs or 'amount' not in trs:
+
+        elif ('from' not in trs or 'to' not in trs or 'amount' not in trs 
+               or 'id' not in trs or 'timestamp' not in trs):
             self.add_error('transfer', 'a required attribute is missing')
-        elif len(trs['from']) == 0 or len(trs['to']) == 0:
+
+        elif not trs['id']:
+            self.add_error('transfer', "ID can't be empty")        
+
+        elif not trs['from'] or not trs['to']:
             self.add_error('transfer', "account codes can't be empty")
+
         elif not isinstance(trs['amount'], float) or float(trs['amount']) < 0:
             self.add_error('transfer', "amount must be a positive number")
+
         else:
             self.transfer = trs
 

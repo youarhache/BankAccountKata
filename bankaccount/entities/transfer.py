@@ -1,4 +1,5 @@
 from bankaccount.shared.abstract_entity import AbstractEntity
+from bankaccount.entities.account import Account
 
 class Transfer:
     def __init__(self, trs_id, trs_timestamp, trs_from, trs_to, trs_amount):
@@ -13,8 +14,8 @@ class Transfer:
         trs = cls(
                     trs_id = dict['trs_id'],
                     trs_timestamp = dict['trs_timestamp'],
-                    trs_from = dict['trs_from'],
-                    trs_to = dict['trs_to'],
+                    trs_from = Account.from_dict(dict['trs_from']),
+                    trs_to = Account.from_dict(dict['trs_to']),
                     trs_amount = dict['trs_amount']
                 )
         return trs
@@ -23,8 +24,8 @@ class Transfer:
         dict = {
             'trs_id': self.trs_id,
             'trs_timestamp': self.trs_timestamp,
-            'trs_from': self.trs_from,
-            'trs_to': self.trs_to,
+            'trs_from': self.trs_from.to_dict(),
+            'trs_to': self.trs_to.to_dict(),
             'trs_amount': self.trs_amount
         }
         return dict

@@ -46,7 +46,8 @@ def test_transfer_amount_request_wrong_format():
 
 
 def test_transfer_amount_request_with_correct_params():
-    _trs = {'from': '1111111111V','to': '2222222222D',  'amount': 100.00}
+    _trs = {'id': '0e101bfe-724f-4e1c-9ac3-6e4f67608c74', 'timestamp': '2018-01-29 10:34:55',
+            'from': '1111111111V','to': '2222222222D',  'amount': 100.00}
     req = ro.TransferAmountRequest(trs=_trs)
 
     assert req.transfer == _trs
@@ -54,7 +55,8 @@ def test_transfer_amount_request_with_correct_params():
 
 
 def test_transfer_amount_request_from_dict_with_params():
-    _trs = {'from': '1111111111V','to': '2222222222D',  'amount': 100.00}
+    _trs = {'id': '0e101bfe-724f-4e1c-9ac3-6e4f67608c74', 'timestamp': '2018-01-29 10:34:55',
+            'from': '1111111111V','to': '2222222222D',  'amount': 100.00}
     req = ro.TransferAmountRequest.from_dict({'transfer':_trs})
 
     assert req.transfer == _trs
@@ -62,23 +64,42 @@ def test_transfer_amount_request_from_dict_with_params():
 
 
 def test_transfer_amount_request_wrong_account_code():
-    req = ro.TransferAmountRequest(trs={'from': '1111111111V', 'to':'', 'amount': 100.00})
+    _trs = {'id': '0e101bfe-724f-4e1c-9ac3-6e4f67608c74', 'timestamp': '2018-01-29 10:34:55',
+            'from': '1111111111V','to': '',  'amount': 100.00}
+    req = ro.TransferAmountRequest(trs=_trs)
 
     assert req.has_errors()
     assert req.errors[0]['parameter'] == 'transfer'
     assert req.errors[0]['message'] == "account codes can't be empty"
     assert bool(req) is False
 
+
+def test_transfer_amount_request_wrong_id():
+    _trs = {'id': '', 'timestamp': '2018-01-29 10:34:55',
+            'from': '1111111111V','to': '2222222222D',  'amount': 100.00}
+    req = ro.TransferAmountRequest(trs=_trs)
+
+    assert req.has_errors()
+    assert req.errors[0]['parameter'] == 'transfer'
+    assert req.errors[0]['message'] == "ID can't be empty"
+    assert bool(req) is False
+
+
 def test_transfer_amount_request_wrong_account_amount():
-    req = ro.TransferAmountRequest(trs={'from': '1111111111V', 'to': '2222222222D', 'amount': '100.00 EUR'})
+    _trs = {'id': '0e101bfe-724f-4e1c-9ac3-6e4f67608c74', 'timestamp': '2018-01-29 10:34:55',
+            'from': '1111111111V','to': '2222222222D',  'amount': '100.00 EUR'}
+    req = ro.TransferAmountRequest(trs=_trs)
 
     assert req.has_errors()
     assert req.errors[0]['parameter'] == 'transfer'
     assert req.errors[0]['message'] == "amount must be a positive number"
     assert bool(req) is False
 
+
 def test_account_request_negative_account_amount():
-    req = ro.TransferAmountRequest(trs={'from': '1111111111V', 'to': '2222222222D', 'amount': -300.00})
+    _trs = {'id': '0e101bfe-724f-4e1c-9ac3-6e4f67608c74', 'timestamp': '2018-01-29 10:34:55',
+            'from': '1111111111V','to': '2222222222D',  'amount': -300.00}
+    req = ro.TransferAmountRequest(trs=_trs)
 
     assert req.has_errors()
     assert req.errors[0]['parameter'] == 'transfer'

@@ -1,5 +1,6 @@
 import json
 import pytest
+import uuid
 
 from bankaccount.serializers.account_serializer import AccountEncoder
 from bankaccount.serializers.transfer_serializer import TransferEncoder
@@ -14,21 +15,22 @@ def test_account_serielizer():
     assert json.loads(json_account) == json.loads(expected)
 
 def test_transfer_serielizer():
+    _id = str(uuid.uuid4())
     test_trs = Transfer(
-                        trs_id=1,
+                        trs_id=_id,
                         trs_timestamp="2019-01-22 09:00:00",
-                        trs_from="2222222222M",
-                        trs_to="1111111111V",
+                        trs_from=Account.from_dict({"code":"222222222M", "balance":1000}),
+                        trs_to=Account.from_dict({"code":"1111111111V", "balance":1000}),
                         trs_amount=321.45
     )
-    expected = """
+    expected = '''
             {
-                "trs_id":1,
+                "trs_id":"'''+_id+'''",
                 "trs_timestamp":"2019-01-22 09:00:00",
-                "trs_from":"2222222222M",
-                "trs_to":"1111111111V",
+                "trs_from":{"code":"222222222M", "balance":1000},
+                "trs_to":{"code":"1111111111V", "balance":1000},
                 "trs_amount":321.45
-            }"""
+            }'''
 
     json_trs = json.dumps(test_trs, cls=TransferEncoder)
     assert json.loads(json_trs) == json.loads(expected)

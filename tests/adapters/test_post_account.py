@@ -11,6 +11,7 @@ test_account = Account(
     )
 
 mimetype = 'application/json'
+
 headers = {
         'Content-Type': mimetype,
         'Accept': mimetype
@@ -25,7 +26,6 @@ def test_post_account_success(mock_usecase, client):
     mock_usecase().execute.return_value = resp.ResponseSuccess(test_account)
     http_response = client.post('/account', data=json.dumps(data), headers=headers)
 
-    assert json.loads(http_response.data.decode('UTF-8')) == test_account.to_dict()
     assert http_response.status_code == 200
     assert http_response.mimetype == 'application/json'
 

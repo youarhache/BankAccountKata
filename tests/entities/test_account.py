@@ -1,3 +1,4 @@
+import uuid
 from bankaccount.entities.account import Account
 
 def test_account_entity_init():
@@ -10,6 +11,7 @@ def test_account_entity_init():
 def test_account_from_dict():
     code = '2222222222M'
     dict = {
+        'id' : id,
         'code' : code,
         'balance' : 321.10
     }

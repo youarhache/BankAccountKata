@@ -20,10 +20,6 @@ class ResponseFailure:
             return f"{msg.__class__.__name__} : {msg}"
         return msg
 
-    # @property
-    # def value(self):
-    #     return {'type': self.type, 'message': self.message}
-
     #error types enum
     PARAMETERS_ERROR = 'ParametersError'
     RESOURCE_ERROR = 'ResourceError'

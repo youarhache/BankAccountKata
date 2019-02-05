@@ -1,4 +1,4 @@
-from abc import ABCMeta
+import abc
 
-class AbstractEntity(metaclass= ABCMeta):
+class AbstractEntity(abc.ABC):
     pass
